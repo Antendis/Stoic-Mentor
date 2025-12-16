@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/**
+ * Global Stylesheet
+ * Implements the "Modern Blue" theme preference.
+ * Includes accessibility overrides for high contrast and scrollbars.
+ */
+
+:root, .light {
+  /* Core Palette - Blue Theme */
+  --bg-primary: #f3f3f3;
+  --bg-secondary: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --accent: #2F67D0;
+  --accent-hover: #1e40af;
+  --border: #e2e8f0;
+
+  /* Chat Specific Colors (Contrast compliant) */
+  --message-user: #2F67D0;
+  --message-bot: #f1f5f9;
+}
+
+:root:not(.light) {
+  /* Dark Mode Palette */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent: #38bdf8;
+  --accent-hover: #0ea5e9;
+  --border: #334155;
+
+  /* Chat Specific Colors */
+  --message-user: #0ea5e9;
+  --message-bot: #334155;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Global default scrollbar (subtle) */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+/* Themed custom scrollbar utility */
+.custom-scrollbar {
+  /* Firefox */
+  scrollbar-width: thin; /* auto | thin | none */
+  scrollbar-color: var(--border) transparent; /* thumb track */
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--border), color-mix(in oklab, var(--border) 70%, var(--accent) 30%));
+  border-radius: 9999px;
+  border: 2px solid transparent; /* adds spacing for a pill look */
+}
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--text-secondary), var(--accent));
+}
+.custom-scrollbar::-webkit-scrollbar-corner { background: transparent; }
+
+/* Screen Reader Only Text - Visually hidden but accessible to screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Skip to main content link for keyboard users */
+.skip-to-main {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--accent);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-to-main:focus {
+  top: 0;
+}
+
+/* Center zoom origin for better zoom experience */
+html {
+  transform-origin: center center;
+}
+
+body {
+  transform-origin: center center;
+}
+
+/* Hide title bar at 200% zoom and above to save space */
+@media (min-resolution: 2dppx) {
+  .hide-at-high-zoom {
+    display: none !important;
+  }
+}
