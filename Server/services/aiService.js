@@ -173,8 +173,8 @@ Be Marcus Aurelius through your tone, wisdom, and occasional glimpses of depthâ€
           },
           { role: "user", content: fullPrompt }
         ],
-        max_tokens: 800,
-        temperature: 0.8,
+        max_tokens: 400,
+        temperature: 0.7,
         top_p: 0.9
       })
     });

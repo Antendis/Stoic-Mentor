@@ -1,118 +1,78 @@
-### **Software Engineering Assignment**
+# Stoic Mentor
 
-### **Historical AI Chatbot – Group Project**
+An AI chatbot that lets you have conversations with Marcus Aurelius, the Roman Emperor and Stoic philosopher.
 
------
+## About
 
-## **Project Overview**
+This project creates an interactive experience where you can discuss philosophy, life challenges, and Stoic wisdom with an AI representation of Marcus Aurelius. The chatbot uses a hybrid approach combining rule-based responses, semantic understanding, and generative AI to provide thoughtful, historically-informed replies.
 
-Our group project is to design and develop a web-based conversational AI chatbot. The chatbot simulates conversations with **Marcus Aurelius**, the Stoic philosopher-emperor. It utilizes a **hybrid architecture** combining rule-based NLP, semantic vector search, and Generative AI (LLM) to provide an engaging and educational experience.
+## Features
 
------
+- Conversational AI powered by Llama-3.1-70B-Instruct
+- Historically accurate personality based on Marcus Aurelius's writings and life
+- Semantic search for contextually relevant responses
+- Support for text and file attachments
+- Persistent conversation history
 
-## **Team Members & Roles**
+## Tech Stack
 
-| Name   | Role             |
-|--------|------------------|
-| Riley  | **Group Leader** |
-| Rohail | Engineer         |
-| Daut   | Engineer         |
-| Ryan   | Engineer         |
+**Frontend:** React + Vite  
+**Backend:** Node.js + Express  
+**Database:** MongoDB  
+**AI:** Hugging Face Inference API
 
------
+## Setup
 
-## **Technical Architecture (MVC-S)**
+### Prerequisites
 
-The system is refactored into a **Model-View-Controller-Service (MVC-S)** architecture to ensure scalability and maintainability.
+- Node.js (v16 or higher)
+- MongoDB connection string
+- Hugging Face API key
 
-  * **Model:** MongoDB Schemas (Mongoose) for Conversations and Logic Scripts.
-  * **View:** React Frontend (Client).
-  * **Controller:** Handles API requests, CRUD operations, and message routing.
-  * **Service:** External integrations (Hugging Face AI) and complex logic (Semantic Engine).
+### Installation
 
------
-
-## **Tech Stack**
-
-### **Frontend**
-
-  * **Framework:** React (Vite)
-  * **Hosting:** Vercel
-  * **Styling:** CSS Modules / Styled Components
-  * **State Management:** React Hooks
-
-### **Backend**
-
-  * **Runtime:** Node.js (Express)
-  * **Database:** MongoDB Atlas (Mongoose ODM)
-  * **Architecture:** Serverless-compatible (Vercel)
-
-### **AI & Logic Engines**
-
-  * **Primary Logic:** Custom `Logic Engine` with **Lazy Loading** script rules.
-  * **NLP Tools:** `natural` (Tokenization, Stemming, Jaro-Winkler distance).
-  * **Semantic Search:** `@xenova/transformers` (all-MiniLM-L6-v2) for vector embeddings and cosine similarity.
-  * **Generative AI:** **Hugging Face Inference API** (Llama-3.1-8B-Instruct) for fallback responses.
-  * **File Handling:** `multer` (RAM storage) for processing image/text attachments.
-
------
-
-## **Project Setup**
-
-### **🔹 Client (Frontend)**
-
-#### **Purpose**
-
-  * **Separation:** Decoupled UI that consumes the REST API.
-  * **UI/UX:** Responsive chat interface supporting text and file uploads.
-  * **Deployment:** Live on [https://marcusaurelius-client.vercel.app/](https://marcusaurelius-client.vercel.app/)
-
-#### **Installation**
-
+1. Clone the repository
 ```bash
+git clone https://github.com/yourusername/Stoic-Mentor.git
+cd Stoic-Mentor
+```
+
+2. Install dependencies
+```bash
+# Install client dependencies
 cd Client
 npm install
-npm run dev
-```
 
------
-
-### **🔹 Server (Backend)**
-
-#### **Key Packages & Features**
-
-  * **express:** REST API Framework.
-  * **mongoose:** Database interaction (CRUD & Schema validation).
-  * **cors / helmet:** Security headers and Cross-Origin resource sharing.
-  * **express-rate-limit:** Prevents API abuse (Window: 15m, Max: 3000 req).
-  * **multer:** Handles file uploads (converted to Base64 for DB storage).
-  * **uuid:** Generates unique IDs for sessions and messages.
-  * **dotenv:** Environment variable management.
-
-#### **Logic Workflow (The "Brain")**
-
-The backend uses a 3-tier **Hybrid Response System**:
-
-1.  **Keyword Match (Fastest):** Checks input against MongoDB-stored rules using stemming and fuzzy matching.
-2.  **Semantic Match (Smart):** Uses Transformer embeddings to find meaning similarity (e.g., "stay calm" ≈ "stoic mindset").
-3.  **Generative AI (Fallback):** If no rules match, the context is sent to **Llama-3** via Hugging Face to generate a persona-accurate response.
-
-#### **Installation & Run**
-
-```bash
-cd Server
+# Install server dependencies
+cd ../Server
 npm install
+```
+
+3. Configure environment variables
+
+Create a `.env` file in the `Server` directory:
+```
+MONGODB_URI=your_mongodb_connection_string
+HUGGINGFACE_API_KEY=your_huggingface_api_key
+PORT=5000
+```
+
+4. Run the application
+```bash
+# Start the server (from Server directory)
+npm run dev
+
+# Start the client (from Client directory)
 npm run dev
 ```
 
-  * **Local Mode:** Connects to MongoDB and loads the script engine.
-  * **Serverless Mode:** Optimized for Vercel cold starts.
-  * **Deployment:** Live on [https://marcusaurelius-server.vercel.app/](https://marcusaurelius-server.vercel.app/)
+The client will run on `http://localhost:5173` and the server on `http://localhost:5000`.
 
------
+## Architecture
 
-### **🔹 Tests & Quality Assurance**
+The application uses a hybrid response system:
+1. **Rule-based matching** for common queries
+2. **Semantic search** for conceptually similar questions
+3. **Generative AI** for open-ended conversations
 
-  * **Unit Testing:** Validates the `Logic Engine` probability selection and keyword matching.
-  * **Integration Testing:** Ensures `conversationController` correctly routes files, text, and database saves.
-  * **Health Checks:** Endpoint `/api/health` monitors Database connection status.
+This ensures fast, accurate responses while maintaining the philosophical depth and personality of Marcus Aurelius.
